@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/loginAndSingnUp.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="title-text">
+        <div class="title login">
+Login Form</div>
+<div class="title signup">
+Signup Form</div>
+</div>
+<div class="form-container">
+        <div class="slide-controls">
+          <input type="radio" name="slide" id="login" checked>
+          <input type="radio" name="slide" id="signup">
+          <label for="login" class="slide login">Login</label>
+          <label for="signup" class="slide signup">Signup</label>
+          <div class="slider-tab">
+</div>
+</div>
+<div class="form-inner">
+          <form action="#" class="login">
+            <div class="field">
+              <input id="email" type="text" placeholder="Email Address" required>
+            </div>
+<div class="field">
+              <input id="password" type="password" placeholder="Password" required>
+            </div>
+<div class="pass-link">
+<!--a href="#">Forgot password?</a>--></div>
+<div class="field btn">
+              <div class="btn-layer">
+</div>
+<input onclick="signIn()" type="submit" value="Login">
+<button id="insert">Login</button>
+            </div>
+<div class="signup-link">
+Not a member? <a href="">Signup now</a></div>
+</form>
+<form action="#" class="signup">
+            <div class="field">
+              <input id="emailSU" type="text" placeholder="Email Address" required>
+            </div>
+<div class="field">
+              <input id="passwordSU" type="password" placeholder="Password" required>
+            </div>
+<div class="field">
+              <input type="password" placeholder="Confirm password" required>
+            </div>
+<div class="field btn">
+              <div class="btn-layer">
+</div>
+<input onclick="signUp()" type="submit" value="Signup">
+            </div>
+</form>
+</div>
+</div>
+</div>
+<script>
+      const loginText = document.querySelector(".title-text .login");
+      const loginForm = document.querySelector("form.login");
+      const loginBtn = document.querySelector("label.login");
+      const signupBtn = document.querySelector("label.signup");
+      const signupLink = document.querySelector("form .signup-link a");
+      signupBtn.onclick = (()=>{
+        loginForm.style.marginLeft = "-50%";
+        loginText.style.marginLeft = "-50%";
+      });
+      loginBtn.onclick = (()=>{
+        loginForm.style.marginLeft = "0%";
+        loginText.style.marginLeft = "0%";
+      });
+      signupLink.onclick = (()=>{
+        signupBtn.click();
+        return false;
+      });
+    </script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyD4rE6-pR_MiDCiDmcxHdSZDmM0zhNl4Ug",
+    authDomain: "loanmanagmentsystemborrower.firebaseapp.com",
+    projectId: "loanmanagmentsystemborrower",
+    storageBucket: "loanmanagmentsystemborrower.appspot.com",
+    messagingSenderId: "650600081059",
+    appId: "1:650600081059:web:f837805ad1c831d4e98116"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+ let signinStatus = false;
+
+ function signUp()
+{
+var email = document.getElementById("emailSU");
+alert(email.value);
+var password = document.getElementById("passwordSU");
+// const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
+// promise.catch(e => alert(e.message));
+// alert("Signed Up");
+auth.createUserWithEmailAndPassword(email.value, password.value).then((success) => {
+var user = auth.currentUser;
+var uid;
+if (user != null) {
+uid = user.uid;
+}
+alert('Your Account created :Your account was created successfully'+ uid);
+const dbRef = firebase.database().ref();
+//const investorRef = dbRef.child('Investor/'+email);
+}).catch((error) => {
+// Handle Errors here.
+var errorCode = error.code;
+var errorMessage = error.message;
+alert("Error : "+errorMessage);
+});
+}
+
+  
+  function signIn()
+{
+var email = document.getElementById("email");
+alert(email);
+var password = document.getElementById("password");
+auth.signInWithEmailAndPassword(email.value, password.value).then((success) => {
+alert("Login Success!!");
+setTimeout(function() {
+window.location.replace("menuB.html");
+}, 1000)
+}).catch((error) => {
+// Handle Errors here.
+var errorCode = error.code;
+var errorMessage = error.message;
+alert("Login Unsuccessful:"+errorMessage);
+});
+}
+
+  auth.onAuthStateChanged(function(user){
+    if(user)
+    {
+      //user is signed 
+      var eml = user.email;
+      var uid = user.uid;
+
+
+  //    if(signinStatus){
+
+  //   alert("Active User :"+eml+" "+uid);
+  // open("../menu/menu.html");
+    //}
+  }
+    else
+    {
+      // no user signed in
+    // alert("No Active User ");
+    }
+  });
+
+</script> 
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>  
+		<link rel="stylesheet" href="../css/AddBorrowerForm.css">
+		<title>Add a Borrower</title>
+	</head>
+<div class="wrapper">
+	<div class="registration_form">
+		<div class="title">
+			Add a Borrower
+		</div>
+
+		<form>
+			<div class="form_wrap">
+				<div class="input_grp">
+					<div class="input_wrap">
+						<label for="fname">First Name</label>
+						<input id="firstName" type="text" id="fname">
+					</div>
+					<div class="input_wrap">
+						<label for="lname">Last Name</label>
+						<input id="lastName" type="text" id="lname">
+					</div>
+				</div>
+				<div class="input_wrap">
+					<label for="email">Email Address</label>
+					<input id="Email" type="text" id="email">
+				</div>
+				<div class="input_wrap">
+					<label>Gender</label>
+					<ul>
+						<li>
+							<label class="radio_wrap">
+								<input type="radio" name="gender" value="male" class="input_radio" checked>
+								<span>Male</span>
+							</label>
+						</li>
+						<li>
+							<label class="radio_wrap">
+								<input type="radio" name="gender" value="female" class="input_radio">
+								<span>Female</span>
+							</label>
+						</li>
+					</ul>
+				</div>
+                
+				<div class="input_wrap">
+					<label for="amount">Amount</label>
+					<input type="text" id="amount">
+				</div>
+                
+				<div class="input_wrap">
+					<label for="Rate">Rate</label>
+					<input type="text" id="Rate">
+				</div>
+                
+				<div class="input_wrap">
+					<label for="numberOfMonthly-payment">Number Of Month</label>
+					<input id="numberOfMonth" type="text">
+				</div>
+
+				<div class="input_wrap">
+					<label for="city">City</label>
+					<input id="city" type="text" >
+				</div>
+				<div class="input_wrap">
+					<label for="country">Country</label>
+					<input id="country" type="text">
+				</div>
+				<div class="input_wrap">
+					<input id="insert" type="submit" value="Add a Borrower" class="submit_btn">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<body>
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
+    authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
+    projectId: "loanmanagmentsystem-ca528",
+    storageBucket: "loanmanagmentsystem-ca528.appspot.com",
+    messagingSenderId: "873110986429",
+    appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  var monthAmount;
+  var lmn = 0;
+var numberOfMonthV3;
+var numberOfMonthV2;
+var firstNameV;
+var lastNameV;
+var EmailV;
+var amountV;
+var RateV;
+var numberOfMonthV;
+var cityV;
+var countryV;
+var todayDay1 = new Date();
+var todayMonthOfDay2 = todayDay1.getMonth();
+var todayMonthOfDay = todayMonthOfDay2+1;
+var todayYearOfDay2 = todayDay1.getFullYear();
+var todayYearOfDay = todayYearOfDay2;
+const dbRef = firebase.database().ref();
+console.log("DB REF "+dbRef);
+
+  function Ready(){
+	firstNameV = document.getElementById("firstName").value;
+	lastNameV = document.getElementById("lastName").value;
+	EmailV = document.getElementById("Email").value;
+	amountV = document.getElementById("amount").value;
+	RateV = document.getElementById("Rate").value;
+	numberOfMonthV = document.getElementById("numberOfMonth").value;
+	cityV = document.getElementById("city").value;
+	countryV = document.getElementById("country").value;
+	console.log("i am ready");
+}
+
+	document.getElementById("insert").onclick = function(){
+		Ready();
+		monthAmount = amountV*parseInt(RateV)*(1+parseInt(RateV))*parseInt(numberOfMonthV)/((1+parseInt(RateV))^parseInt(numberOfMonthV)-1)
+		alert(todayMonthOfDay+"_"+numberOfMonthV);
+		var count = 0;
+		var x =parseInt(numberOfMonthV)+todayMonthOfDay ;
+		alert(x);
+		for(let i = todayMonthOfDay; i < x; i++){
+			count++;
+
+//			lmn = i+1;
+//console.log(lmn);
+//			if(lmn  13){
+//				lmn = 1;
+//				//todayYearOfDay+1;
+//			}
+//var k;
+//var p = k%12;
+
+if((i+1)>12){
+	lmn = (i+1)%12;
+	if(lmn == 0){
+lmn = 12;
+	}
+	if((i+1)%12 == 1){
+ todayYearOfDay = todayYearOfDay+1;
+}
+}else{
+	lmn = i+1;
+}
+//alert(lmn+"lmn is great"+todayYearOfDay);
+
+		const borrowerRef = dbRef.child('MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV+"_"+EmailV);
+		console.log(borrowerRef);
+		borrowerRef.set({
+		firstName:firstNameV,
+		lastName:lastNameV,
+		amount:monthAmount,
+		Rate:RateV,
+		numberOfMonth:numberOfMonthV
+	})	;
+	}
+	alert("!@#$%^&*()"+count);
+
+	console.log("Monthly Pement Added");
+	const borrowerRef2 = dbRef.child('Borrower/'+'listOfAllBorrower/'+firstNameV+"_"+lastNameV+"_"+EmailV);
+	borrowerRef2.set({
+		firstName:firstNameV,
+		lastName:lastNameV,
+		amount:monthAmount,
+		Rate:RateV,
+		numberOfMonth:numberOfMonthV
+	})	;
+
+	console.log("list of borrower Added");
+
+	const borrowerRef3 = dbRef.child('Borrower/'+'Details/'+firstNameV+"_"+lastNameV+"_"+EmailV);
+	borrowerRef3.set({
+		firstName:firstNameV,
+		lastName:lastNameV,
+		Email:EmailV,
+		amount:monthAmount,
+		Rate:RateV,
+		numberOfMonth:numberOfMonthV,
+		city:cityV,
+		country:countryV
+	})	;
+
+	console.log("Details");
+//		console.log("BORROWER REF",borrowerRef);
+//			let newBorrower = { 
+//			firstName:firstNameV,
+//			lastName:lastNameV,
+//			Email:EmailV,
+//			amount:amountV,
+//			Rate:RateV,
+//			numberOfMonth:numberOfMonthV,
+//			city:cityV,
+//			country:countryV
+//		};
+//		borrowerRef.push(newBorrower, function () {
+//    console.log("data has been inserted");
+//  });
+	}
+	</script>
+</body>
+</html>

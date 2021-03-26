@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <title>Due Date Of Borrower</title>
+    <link rel="stylesheet" href="../css/listOfBorrower.css">
+    <link rel="stylesheet" href="../css/tableForm.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<section>
+<table class="table">
+    <thead>
+        <th>SN.</th>
+        <th></th>
+        <th>firstName</th>
+        <th></th>
+        <th>lastName</th>
+        <th></th>
+        <th>amount</th>
+        <th></th>
+        <th>Rate</th>
+        <th></th>
+        <th>number Of Month</th>
+    </thead>
+</table>
+    <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0">
+
+        </div>
+    <tbody id="tbody1">
+
+    </tbody>
+</table>
+
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+
+				 
+				<script id="MainScript">
+				   var firebaseConfig = {
+					 apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
+					 authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
+					 projectId: "loanmanagmentsystem-ca528",
+					 storageBucket: "loanmanagmentsystem-ca528.appspot.com",
+					 messagingSenderId: "873110986429",
+					 appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
+				   };
+				   // Initialize Firebase
+				   firebase.initializeApp(firebaseConfig);
+
+                    var todayDay1 = new Date();
+                    var todayMonthOfDay2 = todayDay1.getMonth();
+                    var todayMonthOfDay = todayMonthOfDay2+1;
+                    var todayYearOfDay2 = todayDay1.getFullYear();
+                    var todayYearOfDay = todayYearOfDay2;
+
+                   function SelectAllData(){
+                    firebase.database().ref('MonthlyPayment/'+todayMonthOfDay+"_"+todayYearOfDay).once('value', 
+                    function(AllRecords){
+                        AllRecords.forEach(
+                            function(CurrentRecord){
+                        var firstName = CurrentRecord.val().firstName;
+                        var lastName = CurrentRecord.val().lastName;
+                        var amount = CurrentRecord.val().amount;
+                        var Rate = CurrentRecord.val().Rate;
+                        var numberOfMonth = CurrentRecord.val().numberOfMonth
+                      
+                        AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth);
+                        
+                        });
+                    });
+                }
+
+                window.onload = SelectAllData;
+
+                var firstNameS = 0;
+                function AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth){
+                    var tbody = document.getElementById('tbody1');
+                    var trow = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var td3 = document.createElement('td');
+                    var td4 = document.createElement('td');
+                    var td5 = document.createElement('td');
+                    var td6 = document.createElement('td');
+                    var td7 = document.createElement('td');
+                    var td8 = document.createElement('td');
+                    var td9 = document.createElement('td');
+                    var td10 = document.createElement('td');
+                    var td11 = document.createElement('td');
+
+                    td1.innerHTML= ++firstNameS;
+                    td2.innerHTML = "";
+                    td3.innerHTML= firstName;
+                    td4.innerHTML = "";
+                    td5.innerHTML= lastName;
+                    td6.innerHTML = "";
+                    td7.innerHTML= amount;
+                    td8.innerHTML = "";
+                    td9.innerHTML= Rate;
+                    td10.innerHTML = "";
+                    td11.innerHTML= numberOfMonth;
+
+                    trow.appendChild(td1);
+                    trow.appendChild(td2);
+                    trow.appendChild(td3);
+                    trow.appendChild(td4);
+                    trow.appendChild(td5);
+                    trow.appendChild(td6);
+                    trow.appendChild(td7);
+                    trow.appendChild(td8);
+                    trow.appendChild(td9);
+                    trow.appendChild(td10);
+                    trow.appendChild(td11);
+                    tbody.appendChild(trow);
+                }
+
+                </script>
+
+  
+  <script>
+    // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .
+      $(window).on("load resize ", function() {
+        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+        $('.tbl-header').css({'padding-right':scrollWidth});
+        }).resize();
+        </script>
+   
+    </body>
+ </html>
