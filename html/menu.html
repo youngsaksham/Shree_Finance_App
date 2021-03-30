@@ -1,23 +1,44 @@
 <!DOCTYPE html>
-<!--Code by Divinector (www.divinectorweb.com)-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
     <link rel="stylesheet" href="../css/menu.css">    
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/main2.css">
 </head>
 <body>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+  
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
+      authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
+      projectId: "loanmanagmentsystem-ca528",
+      storageBucket: "loanmanagmentsystem-ca528.appspot.com",
+      messagingSenderId: "873110986429",
+      appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
     <header>
     <div class="wrapper">
        
 <ul class="nav-area">
 <li><a href="#">Home</a></li>
-<li><a href="aboutUs.html">About</a></li>
-<li><a href="calculator.html">Calculator</a></li>
+<li><a href="#calculator">Calculator</a></li>
 <li><a href="ChatApp.html">Chat </a></li>
-<li><a href="AddBorrowerForm.html">Add A Borrower</a></li>
-<li><a href="listOfBorrower.html">List Of Borrower</a></li>
+<li><a href="#AddBorrower">Add A Borrower</a></li>
+<li><a href="#listOfBorrower">List Of Borrower</a></li>
 <li><a href="myProfile.html">My Profile</a></li>
+<li><a href="#about">About</a></li>
 </ul>
 <div class="logo">
     <img src="../img/logo.png" alt="">
@@ -30,9 +51,598 @@
 <div class="welcome-text">
         <h1>
 Welcome To <span>Shree Finance App</span></h1>
-<a href="DueDateOfBorrower.html">Due Date Of Borrower</a>
+<a href="#DueDateOfBorrower">Due Date Of Borrower</a>
     </div>
 </header>
 
 </body>
+
+
+
+<section id="calculator" class="calculator">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+     <!-- CSS -->
+     <link rel="stylesheet" href="../css/calculator.css">
+
+    <title>Loan Calculator</title>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card card-body text-center mt-5">
+            <h1 class="heading display-5 pb-3">
+              Loan Calculator
+            </h1>
+            <form  id="loan-form">
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control" id="amount" placeholder="Loan Amount">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-text">%</span>
+                  <input type="number" class="form-control" id="interest" placeholder="Interest">
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control" id="month" placeholder="Month to Repay">
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Calculate" class="btn btn-black btn-block">
+              </div>
+            </form>
+            <!-- Loader -->
+            <div id="loading">
+              <img src="../img/loading.gif" alt="loader">
+            </div>
+
+            <!-- Result -->
+           
+           <div id="results" class="pt-4">
+            <h5>Calculated Result</h5>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-text">Monthly Payment</span>
+                <input type="number" class="form-control" id="monthly-payment" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-text">Total Payment</span>
+                <input type="number" class="form-control" id="total-payment" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-text">Total Interest</span>
+                <input type="number" class="form-control" id="total-interest" disabled>
+              </div>
+            </div>
+           </div>
+           <div class="form-group">
+            <input type="reset" value="Reset" id="reset" class="btn btn-danger btn-block pt-3">
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="../js/calculator.js"></script>
+  </body>
+</section>
+
+<section id="AddBorrower" class="AddBorrower">
+  <head>  
+		<link rel="stylesheet" href="../css/AddBorrowerForm.css">
+	</head>
+  <center>
+  <div class="wrapper">
+    <div class="registration_form">
+      <div class="title">
+        Add a Borrower
+      </div>
+  
+      <form>
+        <div class="form_wrap">
+          <div class="input_grp">
+            <div class="input_wrap">
+              <label for="fname">First Name</label>
+              <input id="firstName" type="text" id="fname">
+            </div>
+            <div class="input_wrap">
+              <label for="lname">Last Name</label>
+              <input id="lastName" type="text" id="lname">
+            </div>
+          </div>
+          <div class="input_wrap">
+            <label for="email">Email Address</label>
+            <input id="Email" type="text" id="email">
+          </div>
+          <div class="input_wrap">
+            <label>Gender</label>
+            <ul>
+              <li>
+                <label class="radio_wrap">
+                  <input type="radio" name="gender" value="male" class="input_radio" checked>
+                  <span>Male</span>
+                </label>
+              </li>
+              <li>
+                <label class="radio_wrap">
+                  <input type="radio" name="gender" value="female" class="input_radio">
+                  <span>Female</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+                  
+          <div class="input_wrap">
+            <label for="amount">Amount</label>
+            <input type="text" id="amount">
+          </div>
+                  
+          <div class="input_wrap">
+            <label for="Rate">Rate</label>
+            <input type="text" id="Rate">
+          </div>
+                  
+          <div class="input_wrap">
+            <label for="numberOfMonthly-payment">Number Of Month</label>
+            <input id="numberOfMonth" type="text">
+          </div>
+  
+          <div class="input_wrap">
+            <label for="city">City</label>
+            <input id="city" type="text" >
+          </div>
+          <div class="input_wrap">
+            <label for="country">Country</label>
+            <input id="country" type="text">
+          </div>
+          <div class="input_wrap">
+            <input id="insert" type="submit" value="Add a Borrower" class="submit_btn">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <body>
+    <script>
+    var monthAmount;
+    var lmn = 0;
+  var numberOfMonthV3;
+  var numberOfMonthV2;
+  var firstNameV;
+  var lastNameV;
+  var EmailV;
+  var amountV;
+  var RateV;
+  var numberOfMonthV;
+  var cityV;
+  var countryV;
+  var todayDay1 = new Date();
+  var todayMonthOfDay2 = todayDay1.getMonth();
+  var todayMonthOfDay = todayMonthOfDay2+1;
+  var todayYearOfDay2 = todayDay1.getFullYear();
+  var todayYearOfDay = todayYearOfDay2;
+  const dbRef = firebase.database().ref();
+  console.log("DB REF "+dbRef);
+  
+    function Ready(){
+    firstNameV = document.getElementById("firstName").value;
+    lastNameV = document.getElementById("lastName").value;
+    EmailV = document.getElementById("Email").value;
+    amountV = document.getElementById("amount").value;
+    RateV = document.getElementById("Rate").value;
+    numberOfMonthV = document.getElementById("numberOfMonth").value;
+    cityV = document.getElementById("city").value;
+    countryV = document.getElementById("country").value;
+    console.log("i am ready");
+  }
+  
+    document.getElementById("insert").onclick = function(){
+      Ready();
+      monthAmount = amountV*parseInt(RateV)*(1+parseInt(RateV))*parseInt(numberOfMonthV)/((1+parseInt(RateV))^parseInt(numberOfMonthV)-1)
+      alert(todayMonthOfDay+"_"+numberOfMonthV);
+      var count = 0;
+      var x =parseInt(numberOfMonthV)+todayMonthOfDay ;
+      alert(x);
+      for(let i = todayMonthOfDay; i < x; i++){
+        count++;
+  
+  //			lmn = i+1;
+  //console.log(lmn);
+  //			if(lmn  13){
+  //				lmn = 1;
+  //				//todayYearOfDay+1;
+  //			}
+  //var k;
+  //var p = k%12;
+  
+  if((i+1)>12){
+    lmn = (i+1)%12;
+    if(lmn == 0){
+  lmn = 12;
+    }
+    if((i+1)%12 == 1){
+   todayYearOfDay = todayYearOfDay+1;
+  }
+  }else{
+    lmn = i+1;
+  }
+  //alert(lmn+"lmn is great"+todayYearOfDay);
+  
+      const borrowerRef = dbRef.child('MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV);
+      console.log(borrowerRef);
+      borrowerRef.set({
+      firstName:firstNameV,
+      lastName:lastNameV,
+      amount:monthAmount,
+      Rate:RateV,
+      numberOfMonth:numberOfMonthV
+    })	;
+    }
+    alert("!@#$%^&*()"+count);
+  
+    console.log("Monthly Pement Added");
+    const borrowerRef2 = dbRef.child('Borrower/'+'listOfAllBorrower/'+firstNameV+"_"+lastNameV);
+    borrowerRef2.set({
+      firstName:firstNameV,
+      lastName:lastNameV,
+      amount:monthAmount,
+      Rate:RateV,
+      numberOfMonth:numberOfMonthV
+    })	;
+  
+    console.log("list of borrower Added");
+  
+    const borrowerRef3 = dbRef.child('Borrower/'+'Details/'+firstNameV+"_"+lastNameV);
+    borrowerRef3.set({
+      firstName:firstNameV,
+      lastName:lastNameV,
+      Email:EmailV,
+      amount:monthAmount,
+      Rate:RateV,
+      numberOfMonth:numberOfMonthV,
+      city:cityV,
+      country:countryV
+    })	;
+  
+    console.log("Details");
+  //		console.log("BORROWER REF",borrowerRef);
+  //			let newBorrower = { 
+  //			firstName:firstNameV,
+  //			lastName:lastNameV,
+  //			Email:EmailV,
+  //			amount:amountV,
+  //			Rate:RateV,
+  //			numberOfMonth:numberOfMonthV,
+  //			city:cityV,
+  //			country:countryV
+  //		};
+  //		borrowerRef.push(newBorrower, function () {
+  //    console.log("data has been inserted");
+  //  });
+    }
+    </script>
+  </body>
+</center>
+</section>
+
+<section id="DueDateOfBorrower" class="DueDateOfBorrower">
+  
+<head>
+  <title>Due Date Of Borrower</title>
+  <link rel="stylesheet" href="../css/listOfBorrower.css">
+  <link rel="stylesheet" href="../css/tableForm.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<section>
+<table class="table">
+  <thead>
+      <th>SN.</th>
+      <th></th>
+      <th>firstName</th>
+      <th></th>
+      <th>lastName</th>
+      <th></th>
+      <th>amount</th>
+      <th></th>
+      <th>Rate</th>
+      <th></th>
+      <th>number Of Month</th>
+  </thead>
+</table>
+  <div class="tbl-content">
+      <table cellpadding="0" cellspacing="0" border="0">
+
+      </div>
+  <tbody id="tbody1">
+
+  </tbody>
+</table>
+
+</section>
+ <!--
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+
+       
+      <script id="MainScript">
+         var firebaseConfig = {
+         apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
+         authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
+         projectId: "loanmanagmentsystem-ca528",
+         storageBucket: "loanmanagmentsystem-ca528.appspot.com",
+         messagingSenderId: "873110986429",
+         appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
+         };
+         // Initialize Firebase
+         firebase.initializeApp(firebaseConfig);
+-->
+<script>
+                  var todayDay1 = new Date();
+                  var todayMonthOfDay2 = todayDay1.getMonth();
+                  var todayMonthOfDay = todayMonthOfDay2+2;
+                  var todayYearOfDay2 = todayDay1.getFullYear();
+                  var todayYearOfDay = todayYearOfDay2;
+
+                 function SelectAllData(){
+                  firebase.database().ref('MonthlyPayment/'+todayMonthOfDay+"_"+todayYearOfDay).once('value', 
+                  function(AllRecords){
+                      AllRecords.forEach(
+                          function(CurrentRecord){
+                      var firstName = CurrentRecord.val().firstName;
+                      var lastName = CurrentRecord.val().lastName;
+                      var amount = CurrentRecord.val().amount;
+                      var Rate = CurrentRecord.val().Rate;
+                      var numberOfMonth = CurrentRecord.val().numberOfMonth
+                    
+                      AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth);
+                      
+                      });
+                  });
+              }
+
+              window.onload = SelectAllData;
+
+              var firstNameS = 0;
+              function AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth){
+                  var tbody = document.getElementById('tbody1');
+                  var trow = document.createElement('tr');
+                  var td1 = document.createElement('td');
+                  var td2 = document.createElement('td');
+                  var td3 = document.createElement('td');
+                  var td4 = document.createElement('td');
+                  var td5 = document.createElement('td');
+                  var td6 = document.createElement('td');
+                  var td7 = document.createElement('td');
+                  var td8 = document.createElement('td');
+                  var td9 = document.createElement('td');
+                  var td10 = document.createElement('td');
+                  var td11 = document.createElement('td');
+
+                  td1.innerHTML= ++firstNameS;
+                  td2.innerHTML = "";
+                  td3.innerHTML= firstName;
+                  td4.innerHTML = "";
+                  td5.innerHTML= lastName;
+                  td6.innerHTML = "";
+                  td7.innerHTML= amount;
+                  td8.innerHTML = "";
+                  td9.innerHTML= Rate;
+                  td10.innerHTML = "";
+                  td11.innerHTML= numberOfMonth;
+
+                  trow.appendChild(td1);
+                  trow.appendChild(td2);
+                  trow.appendChild(td3);
+                  trow.appendChild(td4);
+                  trow.appendChild(td5);
+                  trow.appendChild(td6);
+                  trow.appendChild(td7);
+                  trow.appendChild(td8);
+                  trow.appendChild(td9);
+                  trow.appendChild(td10);
+                  trow.appendChild(td11);
+                  tbody.appendChild(trow);
+              }
+
+              </script>
+
+
+<script>
+  // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .
+    $(window).on("load resize ", function() {
+      var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+      $('.tbl-header').css({'padding-right':scrollWidth});
+      }).resize();
+      </script>
+ 
+  </body>
+</section>
+
+<section id="listOfBorrower" class="listOfBorrower">
+ 
+  <head>
+    <title>Due Date Of Borrower</title>
+    <link rel="stylesheet" href="../css/listOfBorrower.css">
+    <link rel="stylesheet" href="../css/tableForm.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+  <section>
+  <table class="table">
+    <thead>
+        <th>SN.</th>
+        <th></th>
+        <th>firstName</th>
+        <th></th>
+        <th>lastName</th>
+        <th></th>
+        <th>amount</th>
+        <th></th>
+        <th>Rate</th>
+        <th></th>
+        <th>number Of Month</th>
+    </thead>
+  </table>
+    <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0">
+  
+        </div>
+    <tbody id="tbody1">
+  
+    </tbody>
+  </table>
+  
+  </section>
+   <!--
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+  
+         
+        <script id="MainScript">
+           var firebaseConfig = {
+           apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
+           authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
+           projectId: "loanmanagmentsystem-ca528",
+           storageBucket: "loanmanagmentsystem-ca528.appspot.com",
+           messagingSenderId: "873110986429",
+           appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
+           };
+           // Initialize Firebase
+           firebase.initializeApp(firebaseConfig);
+  -->
+  <script>
+                    var todayDay1 = new Date();
+                    var todayMonthOfDay2 = todayDay1.getMonth();
+                    var todayMonthOfDay = todayMonthOfDay2+2;
+                    var todayYearOfDay2 = todayDay1.getFullYear();
+                    var todayYearOfDay = todayYearOfDay2;
+  
+                   function SelectAllData(){
+                    firebase.database().ref('Borrower'+'listOfAllBorrower').once('value', 
+                    function(AllRecords){
+                        AllRecords.forEach(
+                            function(CurrentRecord){
+                        var firstName = CurrentRecord.val().firstName;
+                        var lastName = CurrentRecord.val().lastName;
+                        var amount = CurrentRecord.val().amount;
+                        var Rate = CurrentRecord.val().Rate;
+                        var numberOfMonth = CurrentRecord.val().numberOfMonth
+                      
+                        AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth);
+                        
+                        });
+                    });
+                }
+  
+                window.onload = SelectAllData;
+  
+                var firstNameS = 0;
+                function AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth){
+                    var tbody = document.getElementById('tbody1');
+                    var trow = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var td3 = document.createElement('td');
+                    var td4 = document.createElement('td');
+                    var td5 = document.createElement('td');
+                    var td6 = document.createElement('td');
+                    var td7 = document.createElement('td');
+                    var td8 = document.createElement('td');
+                    var td9 = document.createElement('td');
+                    var td10 = document.createElement('td');
+                    var td11 = document.createElement('td');
+  
+                    td1.innerHTML= ++firstNameS;
+                    td2.innerHTML = "";
+                    td3.innerHTML= firstName;
+                    td4.innerHTML = "";
+                    td5.innerHTML= lastName;
+                    td6.innerHTML = "";
+                    td7.innerHTML= amount;
+                    td8.innerHTML = "";
+                    td9.innerHTML= Rate;
+                    td10.innerHTML = "";
+                    td11.innerHTML= numberOfMonth;
+  
+                    trow.appendChild(td1);
+                    trow.appendChild(td2);
+                    trow.appendChild(td3);
+                    trow.appendChild(td4);
+                    trow.appendChild(td5);
+                    trow.appendChild(td6);
+                    trow.appendChild(td7);
+                    trow.appendChild(td8);
+                    trow.appendChild(td9);
+                    trow.appendChild(td10);
+                    trow.appendChild(td11);
+                    tbody.appendChild(trow);
+                }
+  
+                </script>
+  
+  
+  <script>
+    // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .
+      $(window).on("load resize ", function() {
+        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+        $('.tbl-header').css({'padding-right':scrollWidth});
+        }).resize();
+        </script>
+   
+    </body>
+  </section>
+
+<section id="about" class="about">
+  <head>
+    <link rel="stylesheet" href="../css/aboutUs.css">
+  </head>
+  <div class="container flex items-center about-inner-wrap">
+    <div class="flex-1">
+        <img class="about-me-img" src="../img/pic.png" alt="">
+    </div>
+    <div class="flex-1 right">
+        <h1>About Me</h1>
+        <h1>Hello! i’m <span>Saksham Agrawal</span> .</h1>
+        <p> "My name is Saksham Agrawal and I'm from a small village named Sarangi in India.
+           Currently I'm pursuing my education and studying in class 8.
+           I want to thank White Hat Jr for bringing out a software developer, a coder and an innovator in me.
+           They have made it possible for a kid to build an application and apply the never ending ideas in his/her mind into real life applications that can be used nationwide or even globally.
+           With White Hat Jr, coding seems fun and the one on one interaction is the best way one can learn and make mistakes as my teacher always say you have to make mistakes to learn and to move ahead in life.
+           Also I believe that success is not a one day process and it comes with constant hard word and never giving up.
+          So, it is better to fail trying than not trying at all.
+          "
+          </p>
+    </div>
+</div>
+</section>
+
 </html>

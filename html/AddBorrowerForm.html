@@ -159,7 +159,7 @@ lmn = 12;
 }
 //alert(lmn+"lmn is great"+todayYearOfDay);
 
-		const borrowerRef = dbRef.child('MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV+"_"+EmailV);
+		const borrowerRef = dbRef.child('MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV);
 		console.log(borrowerRef);
 		borrowerRef.set({
 		firstName:firstNameV,
@@ -172,7 +172,7 @@ lmn = 12;
 	alert("!@#$%^&*()"+count);
 
 	console.log("Monthly Pement Added");
-	const borrowerRef2 = dbRef.child('Borrower/'+'listOfAllBorrower/'+firstNameV+"_"+lastNameV+"_"+EmailV);
+	const borrowerRef2 = dbRef.child('Borrower/'+'listOfAllBorrower/'+firstNameV+"_"+lastNameV);
 	borrowerRef2.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
@@ -183,7 +183,7 @@ lmn = 12;
 
 	console.log("list of borrower Added");
 
-	const borrowerRef3 = dbRef.child('Borrower/'+'Details/'+firstNameV+"_"+lastNameV+"_"+EmailV);
+	const borrowerRef3 = dbRef.child('Borrower/'+'Details/'+firstNameV+"_"+lastNameV);
 	borrowerRef3.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
