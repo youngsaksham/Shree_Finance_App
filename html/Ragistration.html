@@ -63,6 +63,7 @@
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -98,7 +99,17 @@ console.log("DB REF "+dbRef);
 
 	document.getElementById("insert").onclick = function(){
 		Ready();
-	const borrowerRef = dbRef.child('Investor/'+'Details/');
+		firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+ var userIdLocal = user.uid;
+ alert(userIdLocal)
+  } else {
+    // No user is signed in.
+alert("absent")
+  }
+	const borrowerRef = dbRef.child('Investor/'+userIdLocal+'/MyDetails/');
+	alert("uid")
 	borrowerRef.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
@@ -106,7 +117,9 @@ console.log("DB REF "+dbRef);
 		city:cityV,
 		country:countryV
 	})	;
+});
 	}
+
 	</script>
 	</center>
 </body>

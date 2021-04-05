@@ -49,6 +49,7 @@
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
     
     <!-- TODO: Add SDKs for Firebase products that you want to use
          https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -71,7 +72,16 @@ EmailV = document.getElementById("Email").value;
 cityV = document.getElementById("city").value;
 countryV = document.getElementById("country").value;
 
-  firebase.database().ref('Investor/'+'Details/').on("value",function(snapshot){
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+ var userIdLocal = user.uid;
+  } else {
+    // No user is signed in.
+
+  }
+
+  firebase.database().ref('Investor/'+userIdLocal+'/MyDetails/').on("value",function(snapshot){
 
         document.getElementById("firstName").value = snapshot.val().firstName;
         document.getElementById("lastName").value = snapshot.val().lastName;
@@ -80,6 +90,7 @@ countryV = document.getElementById("country").value;
         document.getElementById("country").value = snapshot.val().country;
        
     });
+});
 
 </script>
 

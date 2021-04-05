@@ -11,6 +11,7 @@
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
   
   <!-- TODO: Add SDKs for Firebase products that you want to use
        https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -30,11 +31,10 @@
     </script>
     <header>
     <div class="wrapper">
-       
+
 <ul class="nav-area">
 <li><a href="#">Home</a></li>
 <li><a href="#calculator">Calculator</a></li>
-<li><a href="ChatApp.html">Chat </a></li>
 <li><a href="#AddBorrower">Add A Borrower</a></li>
 <li><a href="#listOfBorrower">List Of Borrower</a></li>
 <li><a href="myProfile.html">My Profile</a></li>
@@ -56,8 +56,6 @@ Welcome To <span>Shree Finance App</span></h1>
 </header>
 
 </body>
-
-
 
 <section id="calculator" class="calculator">
   <head>
@@ -194,17 +192,17 @@ Welcome To <span>Shree Finance App</span></h1>
                   
           <div class="input_wrap">
             <label for="amount">Amount</label>
-            <input type="text" id="amount">
+            <input type="text" id="amountInFirebase">
           </div>
                   
           <div class="input_wrap">
             <label for="Rate">Rate</label>
-            <input type="text" id="Rate">
+            <input type="text" id="RateInFirebase">
           </div>
                   
           <div class="input_wrap">
             <label for="numberOfMonthly-payment">Number Of Month</label>
-            <input id="numberOfMonth" type="text">
+            <input id="numberOfMonthInFirebase" type="text">
           </div>
   
           <div class="input_wrap">
@@ -224,267 +222,183 @@ Welcome To <span>Shree Finance App</span></h1>
   </div>
   <body>
     <script>
-    var monthAmount;
-    var lmn = 0;
-  var numberOfMonthV3;
-  var numberOfMonthV2;
-  var firstNameV;
-  var lastNameV;
-  var EmailV;
-  var amountV;
-  var RateV;
-  var numberOfMonthV;
-  var cityV;
-  var countryV;
-  var todayDay1 = new Date();
-  var todayMonthOfDay2 = todayDay1.getMonth();
-  var todayMonthOfDay = todayMonthOfDay2+1;
-  var todayYearOfDay2 = todayDay1.getFullYear();
-  var todayYearOfDay = todayYearOfDay2;
-  const dbRef = firebase.database().ref();
-  console.log("DB REF "+dbRef);
-  
-    function Ready(){
-    firstNameV = document.getElementById("firstName").value;
-    lastNameV = document.getElementById("lastName").value;
-    EmailV = document.getElementById("Email").value;
-    amountV = document.getElementById("amount").value;
-    RateV = document.getElementById("Rate").value;
-    numberOfMonthV = document.getElementById("numberOfMonth").value;
-    cityV = document.getElementById("city").value;
-    countryV = document.getElementById("country").value;
-    console.log("i am ready");
+  var monthAmount;
+  var lmn = 0;
+var numberOfMonthV3;
+var numberOfMonthV2;
+var firstNameV;
+var lastNameV;
+var EmailV;
+var amountV;
+var RateV;
+var numberOfMonthV;
+var cityV;
+var countryV;
+var todayDay1 = new Date();
+var todayMonthOfDay2 = todayDay1.getMonth();
+var todayMonthOfDay = todayMonthOfDay2;
+var todayYearOfDay2 = todayDay1.getFullYear();
+var todayYearOfDay = todayYearOfDay2;
+const dbRef = firebase.database().ref();
+console.log("DB REF "+dbRef);
+
+//var user = auth.currentUser;
+//const user = firebase.auth().currentUser;
+//var name, email, photoUrl, uid = "", emailVerified;
+
+var uid;
+var uids;
+
+
+  function Ready(){
+	firstNameV = document.getElementById("firstName").value;
+	lastNameV = document.getElementById("lastName").value;
+	EmailV = document.getElementById("Email").value;
+	amountV = document.getElementById("amountInFirebase").value;
+	RateV = document.getElementById("RateInFirebase").value;
+	numberOfMonthV = document.getElementById("numberOfMonthInFirebase").value;
+	cityV = document.getElementById("city").value;
+	countryV = document.getElementById("country").value;
+	console.log("i am ready");
+
+
+}
+
+	document.getElementById("insert").onclick = function(){
+	var userIdLocal = "";		
+	Ready();
+  const principal = parseFloat(amountV);
+  const calculatedInterest = parseFloat(RateV)/100/12;
+  const calculatedPayments = parseFloat(numberOfMonthV);
+
+  //compute monthly payment
+
+const TheX = Math.pow(1 + calculatedInterest, calculatedPayments);
+const monthly = (principal * TheX * calculatedInterest)/ (TheX-1);
+
+alert(monthly)
+//if(isFinite(monthly)){
+//  var emi = monthly.toFixed(2);
+//}
+//	var amountVV = parseFloat(amountV);
+//var annualRate = parseFloat(RateV);
+//var numberOfMonthVV = parseFloat(numberOfMonthV);
+//
+//var RateVV = annualRate/(12*100);
+//
+//var x = amountVV * RateVV;
+//var num = x * ((1+RateVV)**numberOfMonthVV);
+//var den = ((1+RateVV)**numberOfMonthVV)-1;
+//
+//var emi = num/den;
+//console.log(emi);
+
+alert(todayMonthOfDay+"_"+numberOfMonthV);
+		var count = 0;
+		var x =parseInt(numberOfMonthV)+todayMonthOfDay ;
+				firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+userIdLocal = user.uid;
+	    alert("user Present "+userIdLocal);
+  } else {
+    // No user is signed in.
+    alert("user absent");
   }
-  
-    document.getElementById("insert").onclick = function(){
-      Ready();
-      monthAmount = amountV*parseInt(RateV)*(1+parseInt(RateV))*parseInt(numberOfMonthV)/((1+parseInt(RateV))^parseInt(numberOfMonthV)-1)
-      alert(todayMonthOfDay+"_"+numberOfMonthV);
-      var count = 0;
-      var x =parseInt(numberOfMonthV)+todayMonthOfDay ;
-      alert(x);
-      for(let i = todayMonthOfDay; i < x; i++){
-        count++;
-  
-  //			lmn = i+1;
-  //console.log(lmn);
-  //			if(lmn  13){
-  //				lmn = 1;
-  //				//todayYearOfDay+1;
-  //			}
-  //var k;
-  //var p = k%12;
-  
-  if((i+1)>12){
-    lmn = (i+1)%12;
-    if(lmn == 0){
-  lmn = 12;
-    }
-    if((i+1)%12 == 1){
-   todayYearOfDay = todayYearOfDay+1;
-  }
-  }else{
-    lmn = i+1;
-  }
-  //alert(lmn+"lmn is great"+todayYearOfDay);
-  
-      const borrowerRef = dbRef.child('MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV);
-      console.log(borrowerRef);
-      borrowerRef.set({
-      firstName:firstNameV,
-      lastName:lastNameV,
-      amount:monthAmount,
-      Rate:RateV,
-      numberOfMonth:numberOfMonthV
-    })	;
-    }
-    alert("!@#$%^&*()"+count);
-  
-    console.log("Monthly Pement Added");
-    const borrowerRef2 = dbRef.child('Borrower/'+'listOfAllBorrower/'+firstNameV+"_"+lastNameV);
-    borrowerRef2.set({
-      firstName:firstNameV,
-      lastName:lastNameV,
-      amount:monthAmount,
-      Rate:RateV,
-      numberOfMonth:numberOfMonthV
-    })	;
-  
-    console.log("list of borrower Added");
-  
-    const borrowerRef3 = dbRef.child('Borrower/'+'Details/'+firstNameV+"_"+lastNameV);
-    borrowerRef3.set({
-      firstName:firstNameV,
-      lastName:lastNameV,
-      Email:EmailV,
-      amount:monthAmount,
-      Rate:RateV,
-      numberOfMonth:numberOfMonthV,
-      city:cityV,
-      country:countryV
-    })	;
-  
-    console.log("Details");
-  //		console.log("BORROWER REF",borrowerRef);
-  //			let newBorrower = { 
-  //			firstName:firstNameV,
-  //			lastName:lastNameV,
-  //			Email:EmailV,
-  //			amount:amountV,
-  //			Rate:RateV,
-  //			numberOfMonth:numberOfMonthV,
-  //			city:cityV,
-  //			country:countryV
-  //		};
-  //		borrowerRef.push(newBorrower, function () {
-  //    console.log("data has been inserted");
-  //  });
-    }
-    </script>
+
+for(let i = todayMonthOfDay-1; i < x; i++){
+			count++;
+
+			alert(user.uid);
+
+//			lmn = i+1;
+//console.log(lmn);
+//			if(lmn  13){
+//				lmn = 1;
+//				//todayYearOfDay+1;
+//			}
+//var k;
+//var p = k%12;
+
+if((i+1)>12){
+	lmn = (i+1)%12;
+	if(lmn == 0){
+lmn = 12;
+	}
+	if((i+1)%12 == 1){
+ todayYearOfDay = todayYearOfDay+1;
+}
+}else{
+	lmn = i+1;
+}
+//alert(lmn+"lmn is great"+todayYearOfDay);
+//if (firebase.auth().currentUser !== null){
+		// uid = user.uid;
+        // console.log("user id: " + firebase.auth().currentUser.uid);
+
+		const borrowerRef = dbRef.child("Investor/"+userIdLocal+'/MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV);
+			alert("l")
+		console.log(borrowerRef);
+		borrowerRef.set({
+		firstName:firstNameV,
+		lastName:lastNameV,
+		amount:monthly,
+		Rate:RateV,
+		numberOfMonth:numberOfMonthV
+	})	;
+	}
+	alert("!@#$%^&*()"+count);
+
+	console.log("Monthly Pement Added");
+	const borrowerRef2 = dbRef.child("Investor/"+userIdLocal+'/listOfAllBorrower/'+firstNameV+"_"+lastNameV);
+	alert("ll")
+	borrowerRef2.set({
+		firstName:firstNameV,
+		lastName:lastNameV,
+		amount:monthly,
+		Rate:RateV,
+		numberOfMonth:numberOfMonthV
+	})	;
+
+	console.log("list of borrower Added");
+
+	const borrowerRef3 = dbRef.child("Investor/"+userIdLocal+'/Details/'+firstNameV+"_"+lastNameV);
+	alert("lll")
+	borrowerRef3.set({
+		firstName:firstNameV,
+		lastName:lastNameV,
+		Email:EmailV,
+		amount:monthly,
+		Rate:RateV,
+		numberOfMonth:numberOfMonthV,
+		city:cityV,
+		country:countryV
+	})	;
+
+	alert(EmailV)
+
+	console.log("Details");
+//		console.log("BORROWER REF",borrowerRef);
+//			let newBorrower = { 
+//			firstName:firstNameV,
+//			lastName:lastNameV,
+//			Email:EmailV,
+//			amount:monthly,
+//			Rate:RateV,
+//			numberOfMonth:numberOfMonthV,
+//			city:cityV,
+//			country:countryV
+//		};
+//		borrowerRef.push(newBorrower, function () {
+//    console.log("data has been inserted");
+//  });
+});
+	}    </script>
   </body>
 </center>
 </section>
 
 <section id="DueDateOfBorrower" class="DueDateOfBorrower">
-  
-<head>
-  <title>Due Date Of Borrower</title>
-  <link rel="stylesheet" href="../css/listOfBorrower.css">
-  <link rel="stylesheet" href="../css/tableForm.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
-<body>
-<section>
-<table class="table">
-  <thead>
-      <th>SN.</th>
-      <th></th>
-      <th>firstName</th>
-      <th></th>
-      <th>lastName</th>
-      <th></th>
-      <th>amount</th>
-      <th></th>
-      <th>Rate</th>
-      <th></th>
-      <th>number Of Month</th>
-  </thead>
-</table>
-  <div class="tbl-content">
-      <table cellpadding="0" cellspacing="0" border="0">
-
-      </div>
-  <tbody id="tbody1">
-
-  </tbody>
-</table>
-
-</section>
- <!--
-<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
-
-       
-      <script id="MainScript">
-         var firebaseConfig = {
-         apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
-         authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
-         projectId: "loanmanagmentsystem-ca528",
-         storageBucket: "loanmanagmentsystem-ca528.appspot.com",
-         messagingSenderId: "873110986429",
-         appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
-         };
-         // Initialize Firebase
-         firebase.initializeApp(firebaseConfig);
--->
-<script>
-                  var todayDay1 = new Date();
-                  var todayMonthOfDay2 = todayDay1.getMonth();
-                  var todayMonthOfDay = todayMonthOfDay2+2;
-                  var todayYearOfDay2 = todayDay1.getFullYear();
-                  var todayYearOfDay = todayYearOfDay2;
-
-                 function SelectAllData(){
-                  firebase.database().ref('MonthlyPayment/'+todayMonthOfDay+"_"+todayYearOfDay).once('value', 
-                  function(AllRecords){
-                      AllRecords.forEach(
-                          function(CurrentRecord){
-                      var firstName = CurrentRecord.val().firstName;
-                      var lastName = CurrentRecord.val().lastName;
-                      var amount = CurrentRecord.val().amount;
-                      var Rate = CurrentRecord.val().Rate;
-                      var numberOfMonth = CurrentRecord.val().numberOfMonth
-                    
-                      AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth);
-                      
-                      });
-                  });
-              }
-
-              window.onload = SelectAllData;
-
-              var firstNameS = 0;
-              function AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth){
-                  var tbody = document.getElementById('tbody1');
-                  var trow = document.createElement('tr');
-                  var td1 = document.createElement('td');
-                  var td2 = document.createElement('td');
-                  var td3 = document.createElement('td');
-                  var td4 = document.createElement('td');
-                  var td5 = document.createElement('td');
-                  var td6 = document.createElement('td');
-                  var td7 = document.createElement('td');
-                  var td8 = document.createElement('td');
-                  var td9 = document.createElement('td');
-                  var td10 = document.createElement('td');
-                  var td11 = document.createElement('td');
-
-                  td1.innerHTML= ++firstNameS;
-                  td2.innerHTML = "";
-                  td3.innerHTML= firstName;
-                  td4.innerHTML = "";
-                  td5.innerHTML= lastName;
-                  td6.innerHTML = "";
-                  td7.innerHTML= amount;
-                  td8.innerHTML = "";
-                  td9.innerHTML= Rate;
-                  td10.innerHTML = "";
-                  td11.innerHTML= numberOfMonth;
-
-                  trow.appendChild(td1);
-                  trow.appendChild(td2);
-                  trow.appendChild(td3);
-                  trow.appendChild(td4);
-                  trow.appendChild(td5);
-                  trow.appendChild(td6);
-                  trow.appendChild(td7);
-                  trow.appendChild(td8);
-                  trow.appendChild(td9);
-                  trow.appendChild(td10);
-                  trow.appendChild(td11);
-                  tbody.appendChild(trow);
-              }
-
-              </script>
-
-
-<script>
-  // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .
-    $(window).on("load resize ", function() {
-      var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-      $('.tbl-header').css({'padding-right':scrollWidth});
-      }).resize();
-      </script>
- 
-  </body>
-</section>
-
-<section id="listOfBorrower" class="listOfBorrower">
- 
   <head>
     <title>Due Date Of Borrower</title>
     <link rel="stylesheet" href="../css/listOfBorrower.css">
@@ -494,7 +408,9 @@ Welcome To <span>Shree Finance App</span></h1>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
+  
   <body>
+  
   <section>
   <table class="table">
     <thead>
@@ -521,52 +437,47 @@ Welcome To <span>Shree Finance App</span></h1>
   </table>
   
   </section>
-   <!--
+  <!--
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
-  
-         
-        <script id="MainScript">
-           var firebaseConfig = {
-           apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
-           authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
-           projectId: "loanmanagmentsystem-ca528",
-           storageBucket: "loanmanagmentsystem-ca528.appspot.com",
-           messagingSenderId: "873110986429",
-           appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
-           };
-           // Initialize Firebase
-           firebase.initializeApp(firebaseConfig);
   -->
-  <script>
-                    var todayDay1 = new Date();
-                    var todayMonthOfDay2 = todayDay1.getMonth();
-                    var todayMonthOfDay = todayMonthOfDay2+2;
-                    var todayYearOfDay2 = todayDay1.getFullYear();
-                    var todayYearOfDay = todayYearOfDay2;
+         
+  <script id="MainScript">
+    function SelectAllData(){
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+  var userIdLocalLIstOfBorrower = user.uid;
+  alert(userIdLocalLIstOfBorrower);
+  } else {
+    // No user is signed in.
   
-                   function SelectAllData(){
-                    firebase.database().ref('Borrower'+'listOfAllBorrower').once('value', 
+  }  
+  alert(userIdLocalLIstOfBorrower);    
+     firebase.database().ref("Investor/"+userIdLocalLIstOfBorrower+'/listOfAllBorrower/').once('value', 
                     function(AllRecords){
                         AllRecords.forEach(
                             function(CurrentRecord){
-                        var firstName = CurrentRecord.val().firstName;
-                        var lastName = CurrentRecord.val().lastName;
-                        var amount = CurrentRecord.val().amount;
-                        var Rate = CurrentRecord.val().Rate;
-                        var numberOfMonth = CurrentRecord.val().numberOfMonth
+                        var firstNameListOfBoroower = CurrentRecord.val().firstName;
+                        var lastNameListOfBoroower = CurrentRecord.val().lastName;
+                        var amountListOfBoroower = CurrentRecord.val().amount;
+                        var RateListOfBoroower = CurrentRecord.val().Rate;
+                        var numberOfMonthListOfBoroower = CurrentRecord.val().numberOfMonth
                       
-                        AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth);
+                        AddItemsToTable(firstNameListOfBoroower,lastNameListOfBoroower,amountListOfBoroower,RateListOfBoroower,numberOfMonthListOfBoroower);
                         
                         });
                     });
-                }
+                    alert(userIdLocalLIstOfBorrower)
+            });
+            }
+            
   
                 window.onload = SelectAllData;
   
-                var firstNameS = 0;
-                function AddItemsToTable(firstName,lastName,amount,Rate,numberOfMonth){
+                var firstNameSListOfBoroower = 0;
+                function AddItemsToTable(firstNameListOfBoroower,lastNameListOfBoroower,amountListOfBoroower,RateListOfBoroower,numberOfMonthListOfBoroower){
                     var tbody = document.getElementById('tbody1');
                     var trow = document.createElement('tr');
                     var td1 = document.createElement('td');
@@ -581,17 +492,17 @@ Welcome To <span>Shree Finance App</span></h1>
                     var td10 = document.createElement('td');
                     var td11 = document.createElement('td');
   
-                    td1.innerHTML= ++firstNameS;
+                    td1.innerHTML= ++firstNameSListOfBoroower;
                     td2.innerHTML = "";
-                    td3.innerHTML= firstName;
-                    td4.innerHTML = "";
-                    td5.innerHTML= lastName;
-                    td6.innerHTML = "";
-                    td7.innerHTML= amount;
-                    td8.innerHTML = "";
-                    td9.innerHTML= Rate;
-                    td10.innerHTML = "";
-                    td11.innerHTML= numberOfMonth;
+                    td3.innerHTML= firstNameListOfBoroower;
+                    td4.innerHTML ="";
+                    td5.innerHTML= lastNameListOfBoroower;
+                    td6.innerHTML ="";
+                    td7.innerHTML= amountListOfBoroower;
+                    td8.innerHTML ="";
+                    td9.innerHTML= RateListOfBoroower;
+                    td10.innerHTML ="";
+                    td11.innerHTML= numberOfMonthListOfBoroower;
   
                     trow.appendChild(td1);
                     trow.appendChild(td2);
@@ -609,7 +520,6 @@ Welcome To <span>Shree Finance App</span></h1>
   
                 </script>
   
-  
   <script>
     // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .
       $(window).on("load resize ", function() {
@@ -619,6 +529,139 @@ Welcome To <span>Shree Finance App</span></h1>
         </script>
    
     </body>
+  </section>
+
+<section id="listOfBorrower" class="listOfBorrower">
+<head>
+  <title>Due Date Of Borrower</title>
+  <link rel="stylesheet" href="../css/listOfBorrower.css">
+  <link rel="stylesheet" href="../css/tableForm.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+
+<section>
+<table class="table">
+  <thead>
+      <th>SN.</th>
+      <th></th>
+      <th>firstName</th>
+      <th></th>
+      <th>lastName</th>
+      <th></th>
+      <th>amount</th>
+      <th></th>
+      <th>Rate</th>
+      <th></th>
+      <th>number Of Month</th>
+  </thead>
+</table>
+  <div class="tbl-content">
+      <table cellpadding="0" cellspacing="0" border="0">
+
+      </div>
+  <tbody id="tbody2">
+
+  </tbody>
+</table>
+
+</section>
+<!--
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+-->
+       
+<script id="MainScript">
+  function SelectAllData(){
+firebase.auth().onAuthStateChanged(function(user) {
+if (user) {
+  // User is signed in.
+var userIdLocalLIstOfBorrower = user.uid;
+alert(userIdLocalLIstOfBorrower);
+} else {
+  // No user is signed in.
+
+}  
+alert(userIdLocalLIstOfBorrower);    
+   firebase.database().ref("Investor/"+userIdLocalLIstOfBorrower+'/listOfAllBorrower/').once('value', 
+                  function(AllRecords){
+                      AllRecords.forEach(
+                          function(CurrentRecord){
+                      var firstNameListOfBoroower = CurrentRecord.val().firstName;
+                      var lastNameListOfBoroower = CurrentRecord.val().lastName;
+                      var amountListOfBoroower = CurrentRecord.val().amount;
+                      var RateListOfBoroower = CurrentRecord.val().Rate;
+                      var numberOfMonthListOfBoroower = CurrentRecord.val().numberOfMonth
+                    
+                      AddItemsToTable(firstNameListOfBoroower,lastNameListOfBoroower,amountListOfBoroower,RateListOfBoroower,numberOfMonthListOfBoroower);
+                      
+                      });
+                  });
+                  alert(userIdLocalLIstOfBorrower)
+          });
+          }
+          
+
+              window.onload = SelectAllData;
+
+              var firstNameSListOfBoroower = 0;
+              function AddItemsToTable(firstNameListOfBoroower,lastNameListOfBoroower,amountListOfBoroower,RateListOfBoroower,numberOfMonthListOfBoroower){
+                  var tbody = document.getElementById('tbody2');
+                  var trow = document.createElement('tr');
+                  var td1 = document.createElement('td');
+                  var td2 = document.createElement('td');
+                  var td3 = document.createElement('td');
+                  var td4 = document.createElement('td');
+                  var td5 = document.createElement('td');
+                  var td6 = document.createElement('td');
+                  var td7 = document.createElement('td');
+                  var td8 = document.createElement('td');
+                  var td9 = document.createElement('td');
+                  var td10 = document.createElement('td');
+                  var td11 = document.createElement('td');
+
+                  td1.innerHTML= ++firstNameSListOfBoroower;
+                  td2.innerHTML = "";
+                  td3.innerHTML= firstNameListOfBoroower;
+                  td4.innerHTML ="";
+                  td5.innerHTML= lastNameListOfBoroower;
+                  td6.innerHTML ="";
+                  td7.innerHTML= amountListOfBoroower;
+                  td8.innerHTML ="";
+                  td9.innerHTML= RateListOfBoroower;
+                  td10.innerHTML ="";
+                  td11.innerHTML= numberOfMonthListOfBoroower;
+
+                  trow.appendChild(td1);
+                  trow.appendChild(td2);
+                  trow.appendChild(td3);
+                  trow.appendChild(td4);
+                  trow.appendChild(td5);
+                  trow.appendChild(td6);
+                  trow.appendChild(td7);
+                  trow.appendChild(td8);
+                  trow.appendChild(td9);
+                  trow.appendChild(td10);
+                  trow.appendChild(td11);
+                  tbody.appendChild(trow);
+              }
+
+              </script>
+
+<script>
+  // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .
+    $(window).on("load resize ", function() {
+      var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+      $('.tbl-header').css({'padding-right':scrollWidth});
+      }).resize();
+      </script>
+ 
+  </body>
   </section>
 
 <section id="about" class="about">
@@ -644,5 +687,19 @@ Welcome To <span>Shree Finance App</span></h1>
     </div>
 </div>
 </section>
-
+<style type="text/css">
+  .btn-chat{
+border:none;
+padding:0%;
+text-transform: uppercase;
+font-size: 20px;
+position:fixed;
+bottom: 2%;
+right: 2%;
+width: 5%;
+height: 10%;
+	margin: auto;
+}
+</style>
+<a href="ChatApp.html"> <img class="btn-chat" src="../img/chatApp.png" alt="Chat"></a>
 </html>

@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>List of Borrower</title>
+    <title>Due Date Of Borrower</title>
     <link rel="stylesheet" href="../css/listOfBorrower.css">
     <link rel="stylesheet" href="../css/tableForm.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -54,8 +54,26 @@
 				   // Initialize Firebase
 				   firebase.initializeApp(firebaseConfig);
 
+                    var todayDay1 = new Date();
+                    var todayMonthOfDay2 = todayDay1.getMonth();
+                    var todayMonthOfDay = todayMonthOfDay2+2;
+                    var todayYearOfDay2 = todayDay1.getFullYear();
+                    var todayYearOfDay = todayYearOfDay2;
+
+ 
+
                    function SelectAllData(){
-                    firebase.database().ref('Borrower/'+'listOfAllBorrower').once('value', 
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+ var userIdLocal = user.uid;
+ alert(userIdLocal);
+  } else {
+    // No user is signed in.
+
+  }  
+  alert(userIdLocal);    
+     firebase.database().ref("Investor/"+userIdLocal+'/listOfAllBorrower/').once('value', 
                     function(AllRecords){
                         AllRecords.forEach(
                             function(CurrentRecord){
@@ -69,7 +87,10 @@
                         
                         });
                     });
-                }
+                    alert(userIdLocal)
+            });
+            }
+            
 
                 window.onload = SelectAllData;
 
@@ -116,6 +137,7 @@
                 }
 
                 </script>
+
   
   <script>
     // '.tbl-content' consumed little space for vertical scrollbar, scrollbar width depend on browser/os/platfrom. Here calculate the scollbar width .

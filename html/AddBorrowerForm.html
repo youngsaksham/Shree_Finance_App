@@ -4,6 +4,7 @@
 		<link rel="stylesheet" href="../css/AddBorrowerForm.css">
 		<title>Add a Borrower</title>
 	</head>
+	<center>
 <div class="wrapper">
 	<div class="registration_form">
 		<div class="title">
@@ -78,6 +79,7 @@
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -94,6 +96,7 @@
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
   var monthAmount;
   var lmn = 0;
@@ -115,6 +118,14 @@ var todayYearOfDay = todayYearOfDay2;
 const dbRef = firebase.database().ref();
 console.log("DB REF "+dbRef);
 
+//var user = auth.currentUser;
+//const user = firebase.auth().currentUser;
+//var name, email, photoUrl, uid = "", emailVerified;
+
+var uid;
+var uids;
+
+
   function Ready(){
 	firstNameV = document.getElementById("firstName").value;
 	lastNameV = document.getElementById("lastName").value;
@@ -125,17 +136,44 @@ console.log("DB REF "+dbRef);
 	cityV = document.getElementById("city").value;
 	countryV = document.getElementById("country").value;
 	console.log("i am ready");
+
+
+
 }
 
 	document.getElementById("insert").onclick = function(){
-		Ready();
-		monthAmount = amountV*parseInt(RateV)*(1+parseInt(RateV))*parseInt(numberOfMonthV)/((1+parseInt(RateV))^parseInt(numberOfMonthV)-1)
-		alert(todayMonthOfDay+"_"+numberOfMonthV);
+	var userIdLocal = "";		
+	Ready();
+	var amountVV = parseFloat('100000');
+var annualRate = parseFloat('8');
+var numberOfMonthVV = parseFloat('12');
+
+var RateVV = annualRate/(12*100);
+
+var x = amountVV * RateVV;
+var num = x * ((1+RateVV)**numberOfMonthVV);
+var den = ((1+RateVV)**numberOfMonthVV)-1;
+
+var emi = num/den;
+console.log(emi);
+
+alert(todayMonthOfDay+"_"+numberOfMonthV);
 		var count = 0;
 		var x =parseInt(numberOfMonthV)+todayMonthOfDay ;
-		alert(x);
-		for(let i = todayMonthOfDay; i < x; i++){
+				firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+userIdLocal = user.uid;
+	    alert("user Present "+userIdLocal);
+  } else {
+    // No user is signed in.
+    alert("user absent");
+  }
+
+for(let i = todayMonthOfDay; i < x; i++){
 			count++;
+
+			alert(user.uid);
 
 //			lmn = i+1;
 //console.log(lmn);
@@ -158,13 +196,17 @@ lmn = 12;
 	lmn = i+1;
 }
 //alert(lmn+"lmn is great"+todayYearOfDay);
+//if (firebase.auth().currentUser !== null){
+		// uid = user.uid;
+        // console.log("user id: " + firebase.auth().currentUser.uid);
 
-		const borrowerRef = dbRef.child('MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV);
+		const borrowerRef = dbRef.child("Investor/"+userIdLocal+'/MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV);
+			alert("l")
 		console.log(borrowerRef);
 		borrowerRef.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
-		amount:monthAmount,
+		amount:emi,
 		Rate:RateV,
 		numberOfMonth:numberOfMonthV
 	})	;
@@ -172,28 +214,32 @@ lmn = 12;
 	alert("!@#$%^&*()"+count);
 
 	console.log("Monthly Pement Added");
-	const borrowerRef2 = dbRef.child('Borrower/'+'listOfAllBorrower/'+firstNameV+"_"+lastNameV);
+	const borrowerRef2 = dbRef.child("Investor/"+userIdLocal+'/listOfAllBorrower/'+firstNameV+"_"+lastNameV);
+	alert("ll")
 	borrowerRef2.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
-		amount:monthAmount,
+		amount:emi,
 		Rate:RateV,
 		numberOfMonth:numberOfMonthV
 	})	;
 
 	console.log("list of borrower Added");
 
-	const borrowerRef3 = dbRef.child('Borrower/'+'Details/'+firstNameV+"_"+lastNameV);
+	const borrowerRef3 = dbRef.child("Investor/"+userIdLocal+'/Details/'+firstNameV+"_"+lastNameV);
+	alert("lll")
 	borrowerRef3.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
 		Email:EmailV,
-		amount:monthAmount,
+		amount:emi,
 		Rate:RateV,
 		numberOfMonth:numberOfMonthV,
 		city:cityV,
 		country:countryV
 	})	;
+
+	alert(EmailV)
 
 	console.log("Details");
 //		console.log("BORROWER REF",borrowerRef);
@@ -210,7 +256,9 @@ lmn = 12;
 //		borrowerRef.push(newBorrower, function () {
 //    console.log("data has been inserted");
 //  });
+});
 	}
 	</script>
 </body>
+</center>
 </html>

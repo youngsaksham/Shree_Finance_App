@@ -137,14 +137,20 @@ alert(email);
 var password = document.getElementById("password");
 auth.signInWithEmailAndPassword(email.value, password.value).then((success) => {
 alert("Login Success!!");
+alert(auth.currentUser.uid);
+
 setTimeout(function() {
-window.location.replace("menu.html");
+window.location.href ="./menu.html";
 }, 1000)
+if(firebase.auth().currentUser == null){
+  alert("auth is not define:"+errorMessage);
+}
 }).catch((error) => {
 // Handle Errors here.
 var errorCode = error.code;
 var errorMessage = error.message;
 alert("Login Unsuccessful:"+errorMessage);
+
 });
 }
 
