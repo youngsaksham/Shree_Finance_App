@@ -8,7 +8,7 @@ h1{
 	margin-bottom: 15px;
   }
   table{
-   color: #343A40; 
+   color: #DEE2E6; 
 	width:100%;
 	}
   .tbl-header{
@@ -46,11 +46,8 @@ h1{
   /*   background: -webkit-linear-gradient(left, #25c481, #25b7c4); */
   /*   background: linear-gradient(to right, #25c481, #25b7c4); */
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffd1ff+0,ffa73d+56,ff7c00+90,ff7f04+100 */
-  background: #000000; /* Old browsers */
-  background: -moz-linear-gradient(left,#ff0000 0%,   #cc02ff88 25%, #ff6600 50%, #1900ff 75%, #ff0000 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(left,#ff0000 0%,  #cc02ff88 25%,#ff6600 50%,#1900ff 75%,#ff0000 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right,#ff0000 0%,  #cc02ff88 25%,#ff6600 50%,#1900ff 75%,#ff0000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffd1ff', endColorstr='#ff7f04',GradientType=1 ); /* IE6-9 */
+  background-color: #343A40; /* Old browsers */
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffd1ff', endColorstr='#ff7f04',GradientType=1 ); /* IE6-9 */
 
 	font-family: 'Roboto', sans-serif;
   }

@@ -9,7 +9,8 @@
 }
 
 body{
-	background: linear-gradient(rgba(238, 255, 85, 0.8), rgba(255, 3, 3, 0.8));
+	background: linear-gradient(#00FFEA, #00FFEA);
+	background-color: #00FFEA;
 }
 
 .view_item img{
@@ -41,6 +42,8 @@ body{
 .links ul li:hover,
 .links ul li.active{
 	color:#4A3933;
+		background-color: #00FFEA;
+
 }
 
 .view_main{

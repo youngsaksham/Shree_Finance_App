@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>User Profile Card</title>
+	<link rel="stylesheet" href="../css/myProfile.css">
+  <link rel="stylesheet" href="../css/myProfile2.css">
+	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+</head>
+<body>
+<a href="menuB.html"><button class="btn btn3">Back</button></a>  
+<div class="wrapper">
+    <div class="left">
+        <img src="../img/humanWMoney.webp">
+        <input type="text" class="firstName" id="firstName" disabled>
+        <input type="text" class="lastName" id="lastName" disabled>
+        <p>investor</p>
+    </div>
+    <div class="right">
+        <div class="info">
+            <h3>Information</h3>
+            <div class="info_data">
+                 <div class="data">
+                    <h4>Email</h4>
+                    <input type="text" class="Email" id="Email" disabled>
+                  </div>
+                 
+            </div>
+        </div>
+      
+      <div class="projects">
+            <h3>Place</h3>
+            <div class="projects_data">
+                 <div class="data">
+                    <h4>City</h4>
+                    <input type="text" class="city" id="city" style="font-size: 12px;" disabled>
+                  </div>
+                 <div class="data">
+                   <h4>Country</h4>
+                  <input type="text" class="country" id="country" style="font-size: 12px;" disabled >
+              </div>
+            </div>
+        </div>
+    </div>
+         <a href="RagistrationB.html"><button class="btn btn4">Edit</button></a>  
+</div>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+    
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script id="MainScript">
+  var firebaseConfig = {
+  apiKey: "AIzaSyBqrojzrDw2ilF-tvngsSdqGEXpyZlNLUM",
+  authDomain: "loanmanagmentsystem-ca528.firebaseapp.com",
+  projectId: "loanmanagmentsystem-ca528",
+  storageBucket: "loanmanagmentsystem-ca528.appspot.com",
+  messagingSenderId: "873110986429",
+  appId: "1:873110986429:web:0cacf8e6f88bcbf40ea1d4"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+firstNameV = document.getElementById("firstName").value;
+lastNameV = document.getElementById("lastName").value;
+EmailV = document.getElementById("Email").value;
+cityV = document.getElementById("city").value;
+countryV = document.getElementById("country").value;
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+ var userIdLocal = user.uid;
+  } else {
+    // No user is signed in.
+
+  }
+
+  firebase.database().ref('Investor/'+userIdLocal+'/MyDetails/').on("value",function(snapshot){
+
+        document.getElementById("firstName").value = snapshot.val().firstName;
+        document.getElementById("lastName").value = snapshot.val().lastName;
+        document.getElementById("Email").value = snapshot.val().Email;
+        document.getElementById("city").value = snapshot.val().city;
+        document.getElementById("country").value = snapshot.val().country;
+       
+    });
+});
+
+</script>
+
+</body>
+</html>
