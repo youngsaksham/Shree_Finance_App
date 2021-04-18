@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>  
-		<link rel="stylesheet" href="../css/AddBorrowerForm.css">
+		<link rel="stylesheet" href="../css/ChatApp.css">
 		<title>Profile</title>
 		<link rel="stylesheet" href="../css/myProfile2.css">
-	</head>
+			<link rel="stylesheet" href="../css/AddBorrowerForm.css">
+</head>
 	<a href="myProfile.html"><button class="btn btn2">Back</button></a>  
 	<center>
+				<h1 class="rainbow">Profile Update</h1>
 	<div class="wrapper">
 	<div class="registration_form">
 		
@@ -87,7 +89,6 @@ var EmailV;
 var cityV;
 var countryV;
 const dbRef = firebase.database().ref();
-console.log("DB REF "+dbRef);
 
   function Ready(){
 	firstNameV = document.getElementById("firstName").value;
@@ -103,13 +104,10 @@ console.log("DB REF "+dbRef);
   if (user) {
     // User is signed in.
  var userIdLocal = user.uid;
- alert(userIdLocal)
   } else {
     // No user is signed in.
-alert("absent")
   }
 	const borrowerRef = dbRef.child('Investor/'+userIdLocal+'/MyDetails/');
-	alert("uid")
 	borrowerRef.set({
 		firstName:firstNameV,
 		lastName:lastNameV,

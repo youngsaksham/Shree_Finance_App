@@ -49,7 +49,7 @@
 </div>
 
 </div>
-<div class="welcome-text" style="margin-top: 120px;">
+<div class="welcome-text" style="margin-bottom: -120px;">
         <h1>
 Welcome To <span class="spaning">Shree Finance App</span></h1>
 <a href="DueDateOfBorrower.html">Due Date Of Borrower</a>
@@ -153,9 +153,10 @@ Welcome To <span class="spaning">Shree Finance App</span></h1>
     <link rel="stylesheet" href="../css/AddBorrowerForm.css">
 	</head>
   <center>
+    <div>
        <img src="https://image.freepik.com/free-vector/businessmen-talking-about-business-cartoon_18591-47384.jpg" alt="form" style="position: absolute; margin-left: -450px; width: 500px; height: 852px;">
- <div class="wrapper" style="margin-left: 275px;">
-    <div class="registration_form">
+ <div class="wrapper">
+    <div class="registration_form" style="margin-left: 505px;">
       <div class="title">
         Add a Borrower
       </div>
@@ -224,6 +225,10 @@ Welcome To <span class="spaning">Shree Finance App</span></h1>
       </form>
     </div>
   </div>
+  </div>
+  <div class="nothing">
+    
+  </div>
   <body>
     <script>
   var monthAmount;
@@ -244,7 +249,6 @@ var todayMonthOfDay = todayMonthOfDay2;
 var todayYearOfDay2 = todayDay1.getFullYear();
 var todayYearOfDay = todayYearOfDay2;
 const dbRef = firebase.database().ref();
-console.log("DB REF "+dbRef);
 
 //var user = auth.currentUser;
 //const user = firebase.auth().currentUser;
@@ -252,7 +256,6 @@ console.log("DB REF "+dbRef);
 
 var uid;
 var uids;
-
 
   function Ready(){
 	firstNameV = document.getElementById("firstName").value;
@@ -263,8 +266,6 @@ var uids;
 	numberOfMonthV = document.getElementById("numberOfMonthInFirebase").value;
 	cityV = document.getElementById("city").value;
 	countryV = document.getElementById("country").value;
-	console.log("i am ready");
-
 
 }
 
@@ -280,49 +281,20 @@ var uids;
 const TheX = Math.pow(1 + calculatedInterest, calculatedPayments);
 const monthly = (principal * TheX * calculatedInterest)/ (TheX-1);
 
-alert(monthly)
-//if(isFinite(monthly)){
-//  var emi = monthly.toFixed(2);
-//}
-//	var amountVV = parseFloat(amountV);
-//var annualRate = parseFloat(RateV);
-//var numberOfMonthVV = parseFloat(numberOfMonthV);
-//
-//var RateVV = annualRate/(12*100);
-//
-//var x = amountVV * RateVV;
-//var num = x * ((1+RateVV)**numberOfMonthVV);
-//var den = ((1+RateVV)**numberOfMonthVV)-1;
-//
-//var emi = num/den;
-//console.log(emi);
-
-alert(todayMonthOfDay+"_"+numberOfMonthV);
 		var count = 0;
 		var x =parseInt(numberOfMonthV)+todayMonthOfDay ;
 				firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
 userIdLocal = user.uid;
-	    alert("user Present "+userIdLocal);
   } else {
     // No user is signed in.
-    alert("user absent");
   }
 
 for(let i = todayMonthOfDay-1; i < x; i++){
 			count++;
 
-			alert(user.uid);
 
-//			lmn = i+1;
-//console.log(lmn);
-//			if(lmn  13){
-//				lmn = 1;
-//				//todayYearOfDay+1;
-//			}
-//var k;
-//var p = k%12;
 
 if((i+1)>12){
 	lmn = (i+1)%12;
@@ -335,13 +307,8 @@ lmn = 12;
 }else{
 	lmn = i+1;
 }
-//alert(lmn+"lmn is great"+todayYearOfDay);
-//if (firebase.auth().currentUser !== null){
-		// uid = user.uid;
-        // console.log("user id: " + firebase.auth().currentUser.uid);
 
 		const borrowerRef = dbRef.child("Investor/"+userIdLocal+'/MonthlyPayment/'+lmn+"_"+todayYearOfDay+'/'+firstNameV+"_"+lastNameV);
-			alert("l")
 		console.log(borrowerRef);
 		borrowerRef.set({
 		firstName:firstNameV,
@@ -351,11 +318,7 @@ lmn = 12;
 		numberOfMonth:numberOfMonthV
 	})	;
 	}
-	alert("!@#$%^&*()"+count);
-
-	console.log("Monthly Pement Added");
 	const borrowerRef2 = dbRef.child("Investor/"+userIdLocal+'/listOfAllBorrower/'+firstNameV+"_"+lastNameV);
-	alert("ll")
 	borrowerRef2.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
@@ -363,9 +326,7 @@ lmn = 12;
 		Rate:RateV,
 		numberOfMonth:numberOfMonthV
 	})	;
-	console.log("list of borrower Added");
 	const borrowerRef3 = dbRef.child("Investor/"+userIdLocal+'/Details/'+firstNameV+"_"+lastNameV);
-	alert("lll")
 	borrowerRef3.set({
 		firstName:firstNameV,
 		lastName:lastNameV,
@@ -376,9 +337,9 @@ lmn = 12;
 		city:cityV,
 		country:countryV
 	})	;
-	alert(EmailV)
-	console.log("Details");
+open("#")
 });
+
 	}   
    </script>
   </body>
@@ -397,7 +358,7 @@ lmn = 12;
     <div class="flex-1 right">
         <h1>About Me</h1>
         <h1>Hello! i’m 
-          <ull style="margin-top: 2200px; margin-left: -500px;">
+          <ull style="position: absolute; margin-top: 2200px; margin-left: -500px;">
             <lii>s</lii>
             <lii>a</lii>
             <lii>k</lii>
@@ -405,7 +366,7 @@ lmn = 12;
             <lii>h</lii>
             <lii>a</lii>
             <lii>m</lii>
-             </ull> <ull style="margin-top: 2260px; margin-left: -500px;">
+             </ull> <ull style="position: absolute; margin-top: 2260px; margin-left: -500px;">
               <lii>a</lii>
               <lii>g</lii>
               <lii>r</lii>
@@ -430,7 +391,8 @@ lmn = 12;
           </p>
     </div>
 </div>
-<picture>
+<center>
+  <picture>
   <source srcset="https://github.githubassets.com/images/modules/site/home/footer-illustration.webp" media="(min-width: 700px)" type="image/webp">
     <source srcset="https://github.githubassets.com/images/modules/site/home/footer-illustration-894.webp" type="image/webp">
     <source srcset="https://github.githubassets.com/images/modules/site/home/footer-illustration.svg" media="(min-width: 700px)" type="image/svg">
@@ -443,7 +405,7 @@ lmn = 12;
     class="home-footer-illustration height-auto position-relative z-1 width-full d-block events-none" loading="lazy" decoding="async">
 </picture>
 
-<center>
+
 <div>
   <div>
     

@@ -125,12 +125,10 @@ firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
  var userIdLocal = user.uid;
- alert(userIdLocal);
   } else {
     // No user is signed in.
 
   }  
-  alert(userIdLocal);    
      firebase.database().ref("Investor/"+userIdLocal+'/MonthlyPayment/'+todayMonthOfDay+"_"+todayYearOfDay).once('value', 
                     function(AllRecords){
                         AllRecords.forEach(
@@ -145,7 +143,6 @@ firebase.auth().onAuthStateChanged(function(user) {
                         
                         });
                     });
-                    alert(userIdLocal)
             });
             }
             
@@ -205,5 +202,8 @@ firebase.auth().onAuthStateChanged(function(user) {
         }).resize();
         </script>
    
+   <center>
+    <img src="https://image.freepik.com/free-vector/calendar-money-as-payment-date-reminder-loan-schedule-date-alert-notification-vector-illustration-flat-cartoon_101884-593.jpg" alt="" style="width: 130px; height: 70px;margin-top: -135px; margin-right: 650px;">
+    </center>
     </body>
  </html>

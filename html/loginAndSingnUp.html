@@ -120,7 +120,7 @@ uid = user.uid;
 }
 alert('Your Account created :Your account was created successfully'+ uid);
 const dbRef = firebase.database().ref();
-const investorRef = dbRef.child('Investor/'+email);
+//const investorRef = dbRef.child('Investor/'+email);
 }).catch((error) => {
 // Handle Errors here.
 var errorCode = error.code;

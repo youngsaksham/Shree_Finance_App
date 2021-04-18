@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!--<style>
+    body{
+        background-image: url("https://imgix.lifehacker.com.au/content/uploads/sites/4/2016/06/03/putktyu9244fycs66us2.png?ar=16%3A9&auto=format&fit=crop&q=65&w=1280");
+background-repeat: no-repeat;
+background-size: cover;
+}
+</style>-->
 </head>
 
 <style>
@@ -69,6 +76,7 @@
     <h1>List Of Borrower</h1>
 
     <a href="menu.html"><button class="btn btn3">Back</button></a>  
+
     <section>
 <table class="content-table">
     <tr id="header">
@@ -127,12 +135,10 @@ firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
  var userIdLocal = user.uid;
- alert(userIdLocal);
   } else {
     // No user is signed in.
 
   }  
-  alert(userIdLocal);    
      firebase.database().ref("Investor/"+userIdLocal+'/listOfAllBorrower/').once('value', 
                     function(AllRecords){
                         AllRecords.forEach(
@@ -147,7 +153,6 @@ firebase.auth().onAuthStateChanged(function(user) {
                         
                         });
                     });
-                    alert(userIdLocal)
             });
             }
             
@@ -206,6 +211,8 @@ firebase.auth().onAuthStateChanged(function(user) {
         $('.tbl-header').css({'padding-right':scrollWidth});
         }).resize();
         </script>
-   
+   <center>
+<img src="https://imgix.lifehacker.com.au/content/uploads/sites/4/2016/06/03/putktyu9244fycs66us2.png?ar=16%3A9&auto=format&fit=crop&q=65&w=1280" alt="" style="width: 130px; height: 70px;margin-top: -135px; margin-right: 600px;">
+</center>
     </body>
  </html>
